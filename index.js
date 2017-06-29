@@ -4,6 +4,7 @@ label.style.height = "0px";
 label.style.backgroundColor = "rgba(208, 11, 111, 1)";
 label.style.position = "fixed";
 label.style.top = "50%";
+label.style.bottom = "0%";
 label.style.left = "-20%";
 label.style.transform = "rotate(7deg)";
 label.style.textAlign = "center";
@@ -18,30 +19,53 @@ label.appendChild(content);
 
 var height = 0;
 var id = 0;
-async function slideUp () {
-	await setTimeout(()=>{height++;label.style.height = height + "px";}, 30);
+function slideUp () {
+	return new Promise((resolve) => {
+		setTimeout(()=>{
+			height++;
+			label.style.height = height + "px";
+			resolve();
+		}, 30);
+	});
 }
 
 function showLabel (maxHeight) {
-	for (var i = 0; i <= maxHeight; i++) {
-		slideUp();
-	}
+	return new Promise(async (resolve) => {
+		for (var i = 0; i <= maxHeight; i++) {
+			await slideUp();
+		}
+		resolve();
+	});
 }
 
 var display = false;
-async function blink (delay) {
-	display = display ? false : true;
-	await setTimeout(()=>{content.style.display = display ? "inline" : "none";}, delay);
+function blink (delay) {
+	return new Promise((resolve) => {
+		setTimeout(()=>{
+			display = display ? false : true;
+			content.style.display = display ? "inline" : "none";
+			resolve();
+		}, delay);
+	});
 }
 
 function blinkInnerText (delays) {
-	for (var d of delays) {
-		blink(d);
-	}
+	return new Promise(async (resolve) => {
+		for (var d of delays) {
+			await blink(d);
+		}
+		resolve();
+	})
 }
 
 async function appear () {
 	await showLabel(35);
-	blinkInnerText([100, 20, 100, 20, 100, 20]);
+	await blinkInnerText([100, 20, 100, 20, 100, 20, 20]);
+	
 }
 
+function sleep (ms) {
+	return new Promise((resolve) => {
+		setTimeout(() => {resolve();}, ms);
+	});
+}
