@@ -17,52 +17,67 @@ content.style.display = "none";
 content.innerText = "CV: もふ";
 label.appendChild(content);
 
-var height = 0;
-var id = 0;
-function slideUp () {
-	return new Promise((resolve) => {
-		setTimeout(()=>{
-			height++;
-			label.style.height = height + "px";
-			resolve();
-		}, 30);
-	});
-}
 
 function showLabel (maxHeight) {
+	var height = 0;
 	return new Promise(async (resolve) => {
 		for (var i = 0; i <= maxHeight; i++) {
-			await slideUp();
+			await (() => {
+				return new Promise((resolve) => {
+					setTimeout(()=>{
+						height++;
+						label.style.height = height + "px";
+						resolve();
+					}, 25);
+				});
+			})();
 		}
 		resolve();
 	});
 }
 
-var display = false;
-function blink (delay) {
-	return new Promise((resolve) => {
-		setTimeout(()=>{
-			display = display ? false : true;
-			content.style.display = display ? "inline" : "none";
-			resolve();
-		}, delay);
-	});
-}
 
 function blinkInnerText (delays) {
+	var display = false;
 	return new Promise(async (resolve) => {
 		for (var d of delays) {
-			await blink(d);
+			await (() => {
+				return new Promise((resolve) => {
+					setTimeout(()=>{
+						display = display ? false : true;
+						content.style.display = display ? "inline" : "none";
+						resolve();
+					}, d);
+				});
+			})();
 		}
 		resolve();
 	})
 }
 
+
+var marginLeft = 0;
+async function moveInnerText () {
+	for (var i = 0; i < 200; i++) {
+		await (() => {
+			return new Promise((resolve) => {
+				setTimeout(() => {
+					marginLeft++;
+					content.style.marginLeft = marginLeft + "px";
+					resolve();
+				}, 50);
+			});
+		})();
+	}
+}
+
+
 async function appear () {
 	await showLabel(35);
-	await blinkInnerText([100, 20, 100, 20, 100, 20, 20]);
-	
+	await blinkInnerText([100, 40, 100, 30, 100, 30, 20]);
+	moveInnerText();
 }
+
 
 function sleep (ms) {
 	return new Promise((resolve) => {
