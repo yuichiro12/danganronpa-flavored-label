@@ -58,12 +58,12 @@ function blinkInnerText (delays) {
 
 var marginLeft = 0;
 async function moveInnerText () {
-	for (var i = 0; i < 200; i++) {
+	while (true) {
 		await (() => {
 			return new Promise((resolve) => {
 				setTimeout(() => {
-					marginLeft++;
-					content.style.marginLeft = marginLeft + "px";
+					marginLeft = (marginLeft >= 560) ? -560 : marginLeft + 1;
+					content.style.marginLeft = (marginLeft/8) + "%";
 					resolve();
 				}, 50);
 			});
