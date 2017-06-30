@@ -7,11 +7,11 @@ class DanganronpaFlavoredLabel {
 		this.text = text;
 		this.label = document.body.appendChild(document.createElement("span"));
 
-		// TODO style["height"]との差分をとる
+		// TODO style["initHeight"]との差分をとる
 		this.maxHeight = style["height"] || "35px";
 		this.label.style.height = style["initHeight"] || "0px";
 		this.label.style.width = style["width"] || "140%";
-		this.label.style.backgroundColor = style["backgroundColor"] || "rgba(208, 11, 111, 11)";
+		this.label.style.backgroundColor = style["backgroundColor"] || "rgba(238, 100, 163, 11)";
 		this.label.style.position = style["position"] || "fixed";
 		this.label.style.top = style["top"] || "50%";
 		this.label.style.bottom = style["bottom"] || "0%";
@@ -93,5 +93,9 @@ class DanganronpaFlavoredLabel {
 		await this.showLabel();
 		await this.blinkInnerText();
 		this.moveInnerText();
+	}
+
+	remove () {
+		document.body.removeChild(this.label);
 	}
 }
