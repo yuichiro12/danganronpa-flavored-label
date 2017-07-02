@@ -25,6 +25,7 @@ class DanganronpaFlavoredLabel {
 		this.label.style.textAlign = style["textAlign"] || "center";
 		this.label.style.color = style["color"] || "#fff";
 		this.label.style.zIndex = style["zIndex"] || "10";
+		this.label.style.overflow = "hidden";
 
 		this.content = document.createElement("p");
 		this.content.style.position = "absolute";
